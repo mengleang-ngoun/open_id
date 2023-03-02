@@ -84,6 +84,7 @@ def issue_token():
 
 
 @bp.route('/oauth/userinfo')
-@require_oauth('profile')
+@require_oauth()
 def api_me():
-    return jsonify(generate_user_info(current_token.user, current_token.scope))
+    useinfo = generate_user_info(current_token.user, current_token.scope)
+    return jsonify(useinfo)
