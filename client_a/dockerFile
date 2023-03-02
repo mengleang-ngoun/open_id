@@ -1,0 +1,5 @@
+FROM node:18.14.2-alpine3.17
+WORKDIR /client_a
+COPY . .
+RUN npm i
+CMD [ "npm", "start" ]

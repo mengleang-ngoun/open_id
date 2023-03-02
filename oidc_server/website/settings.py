@@ -1,0 +1,14 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+OAUTH2_JWT_ENABLED = True
+
+OAUTH2_JWT_ISS = 'https://authlib.org'
+OAUTH2_JWT_KEY = 'secret-key'
+OAUTH2_JWT_ALG = 'HS256'
+
+SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+AUTHLIB_INSECURE_TRANSPORT = os.getenv("AUTHLIB_INSECURE_TRANSPORT")
+SQLALCHEMY_TRACK_MODIFICATIONS = False

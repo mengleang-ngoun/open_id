@@ -1,0 +1,21 @@
+# TODO: update docker to reduce file size
+
+FROM python:3.8-slim
+
+RUN apt-get update -y &&\
+    apt-get install ffmpeg libsm6 libxext6 python3-mysqldb default-libmysqlclient-dev gcc -y --no-install-recommends &&\
+    apt-get clean
+
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=development
+ENV FLASK_DEBUG=1
+
+WORKDIR /oidc_server
+ADD requirements.txt ./
+
+RUN pip install -r requirements.txt
+
+ADD . .
+
+EXPOSE 5000
+CMD [ "flask", "run", "--host=0.0.0.0" ]

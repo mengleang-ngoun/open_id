@@ -1,0 +1,38 @@
+version: "3"
+services:
+  db:
+    image: mysql:8
+    ports:
+      - 3307:3306
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=S3cret
+      - MYSQL_DATABASE=open_id
+  open_id:
+    build: 
+      context: ./oidc_server
+      dockerfile: dockerFile
+    ports:
+      - 5000:5000
+    volumes:
+      - ./oidc_server:/oidc_server
+    environment:
+      - SQLALCHEMY_DATABASE_URI=mysql://root:S3cret@db/open_id
+      - AUTHLIB_INSECURE_TRANSPORT=1
+    links:
+      - db
+    depends_on:
+      - db
+  client_a:
+    build:
+      context: ./client_a
+      dockerfile: dockerFile
+    volumes:
+      - ./client_a:/client_a
+    ports:
+      - 3000:3000
+volumes:
+  db_data:
+
