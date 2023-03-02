@@ -9,9 +9,7 @@ from authlib.oauth2.rfc6749.grants import (
     AuthorizationCodeGrant as _AuthorizationCodeGrant,
 )
 from authlib.oidc.core.grants import (
-    OpenIDCode as _OpenIDCode,
-    OpenIDImplicitGrant as _OpenIDImplicitGrant,
-    OpenIDHybridGrant as _OpenIDHybridGrant,
+    OpenIDCode as _OpenIDCode
 )
 from authlib.oidc.core import UserInfo
 from werkzeug.security import gen_salt
