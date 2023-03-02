@@ -45,16 +45,11 @@ def split_by_crlf(s):
     return [v for v in s.splitlines() if v]
 
 
-@bp.route('/create_client', methods=('GET', 'POST'))
+@bp.route('/create_client', methods=["POST"])
 def create_client():
-    user = current_user()
-    if not user:
-        return redirect('/')
-    if request.method == 'GET':
-        return render_template('create_client.html')
     form = request.form
     client_id = gen_salt(24)
-    client = OAuth2Client(client_id=client_id, user_id=user.id)
+    client = OAuth2Client(client_id=client_id, user_id=1)
     # Mixin doesn't set the issue_at date
     client.client_id_issued_at = int(time.time())
     if client.token_endpoint_auth_method == 'none':
@@ -74,7 +69,7 @@ def create_client():
     client.set_client_metadata(client_metadata)
     db.session.add(client)
     db.session.commit()
-    return redirect('/')
+    return {"status": "ok"}, 200
 
 
 @bp.route('/oauth/authorize', methods=['GET', 'POST'])

@@ -82,31 +82,6 @@ class OpenIDCode(_OpenIDCode):
         return generate_user_info(user, scope)
 
 
-class ImplicitGrant(_OpenIDImplicitGrant):
-    def exists_nonce(self, nonce, request):
-        return exists_nonce(nonce, request)
-
-    def get_jwt_config(self, grant):
-        return DUMMY_JWT_CONFIG
-
-    def generate_user_info(self, user, scope):
-        return generate_user_info(user, scope)
-
-
-class HybridGrant(_OpenIDHybridGrant):
-    def create_authorization_code(self, client, grant_user, request):
-        return create_authorization_code(client, grant_user, request)
-
-    def exists_nonce(self, nonce, request):
-        return exists_nonce(nonce, request)
-
-    def get_jwt_config(self):
-        return DUMMY_JWT_CONFIG
-
-    def generate_user_info(self, user, scope):
-        return generate_user_info(user, scope)
-
-
 authorization = AuthorizationServer()
 require_oauth = ResourceProtector()
 
@@ -124,8 +99,6 @@ def config_oauth(app):
     authorization.register_grant(AuthorizationCodeGrant, [
         OpenIDCode(require_nonce=True),
     ])
-    authorization.register_grant(ImplicitGrant)
-    authorization.register_grant(HybridGrant)
 
     # protect resource
     bearer_cls = create_bearer_token_validator(db.session, OAuth2Token)
